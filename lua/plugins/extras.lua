@@ -1,16 +1,12 @@
 return { -- Indent guide for Neovim
   {
     "lukas-reineke/indent-blankline.nvim",
-    enabled = false,
+    enabled = true,  -- Enable the plugin
     event = { "BufReadPost", "BufNewFile" },
-    version = "2.1.0",
-    opts = {
-      -- char = "┊",
-      char = "│",
-      filetype_exclude = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason" },
-      show_trailing_blankline_indent = false,
-      show_current_context = false,
-    },
+    config = function()
+      -- This is where you call the setup function for indent-blankline version 3
+      require("ibl").setup()
+    end,
   },
 
   -- Lua
