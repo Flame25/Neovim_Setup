@@ -1,11 +1,24 @@
-return { -- Indent guide for Neovim
+return {
   {
     "lukas-reineke/indent-blankline.nvim",
-    enabled = true,  -- Enable the plugin
-    event = { "BufReadPost", "BufNewFile" },
+    opts = {},
     config = function()
       -- This is where you call the setup function for indent-blankline version 3
-      require("ibl").setup()
+    require("ibl").setup({
+      indent = {
+        char = "│",
+        smart_indent_cap = true,
+      },
+      scope = {
+        show_start = true,
+        show_end = true,
+      },
+      exclude = {
+        filetypes = { "dashboard", "lazy", "NvimTree", "alpha" },
+        buftypes = { "terminal", "nofile", "quickfix", "prompt" },
+      },
+    })
+
     end,
   },
 
