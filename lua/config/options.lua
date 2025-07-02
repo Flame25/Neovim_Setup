@@ -50,7 +50,7 @@ vim.opt.fillchars = { eob = " " } -- change the character at the end of buffer
 -- vim.opt.tabstop = 2                           -- insert 2 spaces for a tab
 vim.opt.laststatus = 0 -- Always display the status line
 
-vim.cmd.colorscheme "catppuccin-frappe"
+vim.cmd.colorscheme("catppuccin-frappe")
 
 -- Keybinds
 vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc")

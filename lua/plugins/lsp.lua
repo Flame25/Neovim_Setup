@@ -9,7 +9,7 @@ return {
     { "hrsh7th/cmp-nvim-lsp" },
   },
   config = function()
-    require("mason").setup {
+    require("mason").setup({
       ui = {
         border = "rounded",
         icons = {
@@ -18,10 +18,10 @@ return {
           package_uninstalled = "✗",
         },
       },
-    }
-    require("mason-lspconfig").setup {
-      ensure_installed = vim.tbl_keys(require "plugins.lsp.servers"),
-    }
+    })
+    require("mason-lspconfig").setup({
+      ensure_installed = vim.tbl_keys(require("plugins.lsp.servers")),
+    })
     require("lspconfig.ui.windows").default_options.border = "single"
 
     vim.api.nvim_create_autocmd("LspAttach", {
@@ -46,8 +46,8 @@ return {
 
         map("<leader>v", "<cmd>vsplit | lua vim.lsp.buf.definition()<cr>", "Goto Definition in Vertical Split")
 
-        local wk = require "which-key"
-        wk.add {
+        local wk = require("which-key")
+        wk.add({
           { "<leader>la", vim.lsp.buf.code_action, desc = "Code Action" },
           { "<leader>lA", vim.lsp.buf.range_code_action, desc = "Range Code Actions" },
           { "<leader>ls", vim.lsp.buf.signature_help, desc = "Display Signature Information" },
@@ -78,7 +78,7 @@ return {
             end,
             desc = "Workspace List Folders",
           },
-        }
+        })
 
         -- Thank you teej
         -- https://github.com/nvim-lua/kickstart.nvim/blob/master/init.lua#L502
@@ -112,34 +112,54 @@ return {
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
-    local mason_lspconfig = require "mason-lspconfig"
-    local navic = require "nvim-navic"
+    local mason_lspconfig = require("mason-lspconfig")
+    local navic = require("nvim-navic")
 
-    mason_lspconfig.setup_handlers {
-      function(server_name)
-        local server_config = require("plugins.lsp.servers")[server_name]
-        require("lspconfig")[server_name].setup {
-          capabilities = capabilities,
-          -- on_attach = require("plugins.lsp.on_attach").on_attach,
-          on_attach = function(client, bufnr)
-            navic.attach(client, bufnr)
-          end,
-          settings = require("plugins.lsp.servers")[server_name],
-          filetypes = (require("plugins.lsp.servers")[server_name] or {}).filetypes,
-        }
-      end,
-    }
+    --mason_lspconfig.setup_handlers {
+    --  function(server_name)
+    --    local server_config = require("plugins.lsp.servers")[server_name]
+    --    require("lspconfig")[server_name].setup {
+    --      capabilities = capabilities,
+    --      -- on_attach = require("plugins.lsp.on_attach").on_attach,
+    --      on_attach = function(client, bufnr)
+    --        navic.attach(client, bufnr)
+    --      end,
+    --      settings = require("plugins.lsp.servers")[server_name],
+    --      filetypes = (require("plugins.lsp.servers")[server_name] or {}).filetypes,
+    --    }
+    --  end,
+    --}
 
     -- Gleam LSP
     -- For some reason mason doesn't work with gleam lsp
-    require("lspconfig").gleam.setup {
+    require("lspconfig").gleam.setup({
       cmd = { "gleam", "lsp" },
       filetypes = { "gleam" },
       root_dir = require("lspconfig").util.root_pattern("gleam.toml", ".git"),
       capabilities = capabilities,
-    }
+    })
 
-    require("lspconfig").lua_ls.setup {
+    require("lspconfig").arduino_language_server.setup({
+      cmd = {
+        "arduino-language-server",
+        "-cli",
+        "arduino-cli",
+        "-cli-config",
+        "/home/gadzz/.arduino15/arduino-cli.yaml",
+        "--fqbn",
+        "esp32:esp32:esp32", -- Ensure this FQBN is 100% correct
+        "-log",
+        "debug",
+        "-cli-daemon",
+        "true",
+      },
+      filetypes = { "arduino" },
+      root_dir = function(fname)
+        return vim.fn.getcwd()
+      end,
+    })
+
+    require("lspconfig").lua_ls.setup({
       on_attach = function(client, bufnr)
         navic.attach(client, bufnr)
       end,
@@ -147,7 +167,7 @@ return {
         if client.workspace_folders then
           local path = client.workspace_folders[1].name
           if
-            path ~= vim.fn.stdpath "config"
+            path ~= vim.fn.stdpath("config")
             and (vim.loop.fs_stat(path .. "/.luarc.json") or vim.loop.fs_stat(path .. "/.luarc.jsonc"))
           then
             return
@@ -177,9 +197,9 @@ return {
       settings = {
         Lua = {},
       },
-    }
+    })
 
-    vim.diagnostic.config {
+    vim.diagnostic.config({
       title = false,
       underline = true,
       virtual_text = true,
@@ -193,7 +213,7 @@ return {
         header = "",
         prefix = "",
       },
-    }
+    })
 
     local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
     for type, icon in pairs(signs) do

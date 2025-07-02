@@ -21,10 +21,18 @@ return {
       -- },
 
       {
-        "<leader>f", function() require("config.utils").telescope_git_or_file() end, desc = "Find Files (Root)",
+        "<leader>f",
+        function()
+          require("config.utils").telescope_git_or_file()
+        end,
+        desc = "Find Files (Root)",
       },
       {
-        "<leader>o", function() require("telescope.builtin").buffers() end, desc = "Buffers",
+        "<leader>o",
+        function()
+          require("telescope.builtin").buffers()
+        end,
+        desc = "Buffers",
       },
       {
         "<leader>sf",
@@ -235,37 +243,39 @@ return {
             -- Define highlight group for symbol kind
             vim.cmd([[highlight TelescopeSymbolKind guifg=#61AFEF]])
 
-            require("telescope.pickers").new({}, {
-              prompt_title = "Document Symbols: " .. vim.fn.fnamemodify(entry.path, ":t"),
-              finder = require("telescope.finders").new_table({
-                results = flat_symbols,
-                entry_maker = function(symbol)
-                  local kind = vim.lsp.protocol.SymbolKind[symbol.kind] or "Other"
-                  return {
-                    value = symbol,
-                    display = function(entry)
-                      local display_text = string.format("%-50s %s", entry.value.name, kind)
-                      return display_text, { { { #entry.value.name + 1, #display_text }, "TelescopeSymbolKind" } }
-                    end,
-                    ordinal = symbol.name,
-                    filename = entry.path,
-                    lnum = symbol.selectionRange.start.line + 1,
-                    col = symbol.selectionRange.start.character + 1,
-                  }
+            require("telescope.pickers")
+              .new({}, {
+                prompt_title = "Document Symbols: " .. vim.fn.fnamemodify(entry.path, ":t"),
+                finder = require("telescope.finders").new_table({
+                  results = flat_symbols,
+                  entry_maker = function(symbol)
+                    local kind = vim.lsp.protocol.SymbolKind[symbol.kind] or "Other"
+                    return {
+                      value = symbol,
+                      display = function(entry)
+                        local display_text = string.format("%-50s %s", entry.value.name, kind)
+                        return display_text, { { { #entry.value.name + 1, #display_text }, "TelescopeSymbolKind" } }
+                      end,
+                      ordinal = symbol.name,
+                      filename = entry.path,
+                      lnum = symbol.selectionRange.start.line + 1,
+                      col = symbol.selectionRange.start.character + 1,
+                    }
+                  end,
+                }),
+                sorter = require("telescope.config").values.generic_sorter({}),
+                previewer = require("telescope.config").values.qflist_previewer({}),
+                attach_mappings = function(_, map)
+                  map("i", "<CR>", function(prompt_bufnr)
+                    local selection = action_state.get_selected_entry()
+                    actions.close(prompt_bufnr)
+                    vim.cmd("edit " .. selection.filename)
+                    vim.api.nvim_win_set_cursor(0, { selection.lnum, selection.col - 1 })
+                  end)
+                  return true
                 end,
-              }),
-              sorter = require("telescope.config").values.generic_sorter({}),
-              previewer = require("telescope.config").values.qflist_previewer({}),
-              attach_mappings = function(_, map)
-                map("i", "<CR>", function(prompt_bufnr)
-                  local selection = action_state.get_selected_entry()
-                  actions.close(prompt_bufnr)
-                  vim.cmd("edit " .. selection.filename)
-                  vim.api.nvim_win_set_cursor(0, { selection.lnum, selection.col - 1 })
-                end)
-                return true
-              end,
-            }):find()
+              })
+              :find()
           end)
         end)
       end
@@ -286,8 +296,6 @@ return {
               ["<C-t>"] = trouble.open,
               ["<C-s>"] = document_symbols_for_selected,
             },
-
-
           },
           -- path_display = formattedName,
           path_display = {
@@ -385,10 +393,10 @@ return {
         },
         extensions = {
           fzf = {
-            fuzzy = true,                   -- false will only do exact matching
+            fuzzy = true, -- false will only do exact matching
             override_generic_sorter = true, -- override the generic sorter
-            override_file_sorter = true,    -- override the file sorter
-            case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
+            override_file_sorter = true, -- override the file sorter
+            case_mode = "smart_case", -- or "ignore_case" or "respect_case"
           },
           ["ui-select"] = {
             require("telescope.themes").get_dropdown({
