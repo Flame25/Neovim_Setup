@@ -53,3 +53,37 @@ vim.opt.laststatus = 0 -- Always display the status line
 -- Keybinds
 vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc")
 vim.keymap.set("n", "<leader>ut", "<cmd>Themery<cr>", { desc = "Themery Live" })
+vim.api.nvim_set_keymap("n", "<leader>ql", "<cmd>:lua require('quicknote').NewNoteAtCurrentLine()<cr>",{})
+vim.api.nvim_set_keymap("n", "<leader>qs", "<cmd>:lua require('quicknote').ShowNoteSigns()<cr>",{})
+vim.api.nvim_set_keymap("n", "<leader>qh", "<cmd>:lua require('quicknote').HideNoteSigns()<cr>",{})
+vim.api.nvim_set_keymap("n", "<leader>qo", "<cmd>:lua require('quicknote').OpenNoteAtCurrentLine()<cr>",{})
+
+
+-- Enable line wrapping
+vim.o.wrap = true
+
+-- Break lines at convenient places (like spaces)
+vim.o.linebreak = true
+
+vim.o.laststatus =3
+
+-- Remap j/k to gj/gk only in real file buffers
+vim.api.nvim_create_autocmd("BufEnter", {
+  callback = function()
+    local buftype = vim.api.nvim_buf_get_option(0, "buftype")
+    local filetype = vim.api.nvim_buf_get_option(0, "filetype")
+
+    -- Only apply to normal file buffers
+    if buftype ~= "" then
+      return  -- skip terminal, quickfix, etc.
+    end
+
+    if filetype == "neo-tree" or filetype == "help" then
+      return  -- skip plugins and help
+    end
+
+    -- Map j/k for visual line movement in this buffer only
+    vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, noremap = true, buffer = 0 })
+    vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, noremap = true, buffer = 0 })
+  end
+})

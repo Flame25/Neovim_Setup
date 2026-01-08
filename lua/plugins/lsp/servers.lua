@@ -12,6 +12,7 @@ return {
     arg = { "server" },
     filetypes = { "terraform", "tf", "terraform-vars" },
   },
+  pylsp = {},
   -- lua_ls = {
   --   settings = {
   --     Lua = {

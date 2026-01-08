@@ -4,6 +4,7 @@ return {
   config = function()
     require("dashboard").setup {
       config = {
+        project = { enable = false },
         week_header = {
           enable = true,
         },

@@ -154,6 +154,35 @@ return {
 			end,
 		})
 
+
+                vim.lsp.config("pylsp", {
+                  settings = {
+                    pylsp = {
+                      plugins = {
+                        black = { enabled = true },
+                        autopep8 = { enabled = false },
+                        yapf = { enabled = false },
+                        -- linter options
+                        pylint = { enabled = true, executable = "pylint" },
+                        pyflakes = { enabled = false },
+                        pycodestyle = { enabled = false },
+                        -- type checker
+                        pylsp_mypy = { enabled = true },
+                        -- auto-completion options
+                        jedi_completion = { fuzzy = true },
+                        -- import sorting
+                        pyls_isort = { enabled = true },
+                      },
+                    },
+                  },
+                  flags = {
+                    debounce_text_changes = 200,
+                  },
+                  capabilities = capabilities, -- Assumed to be defined elsewhere
+                })
+
+        
+
 		vim.lsp.config("lua_ls", {
 			on_attach = function(client, bufnr)
 				require("nvim-navic").attach(client, bufnr)
