@@ -23,7 +23,6 @@ If you’re okay with chaos that works — welcome.
 ## 📸 Screenshots
 
 > UI, colorscheme, and plugins may change frequently.
-## 📸 Screenshots
 
 <p align="center">
   <img src="./screenshots/dashboard.png" width="45%" /><br/>
