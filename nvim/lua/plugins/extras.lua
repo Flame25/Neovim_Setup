@@ -37,8 +37,8 @@ return {
     end,
   },
 
-  { "ellisonleao/gruvbox.nvim", priority = 1000, config = true, opts = ... },
-  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+  -- { "ellisonleao/gruvbox.nvim", priority = 1000, config = true, opts = ... },
+  -- { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
   {
     "navarasu/onedark.nvim",
     priority = 1000, -- make sure to load this before all the other start plugins
