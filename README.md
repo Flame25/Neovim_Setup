@@ -23,11 +23,24 @@ If you’re okay with chaos that works — welcome.
 ## 📸 Screenshots
 
 > UI, colorscheme, and plugins may change frequently.
+## 📸 Screenshots
 
-![Dashboard](./screenshots/dashboard.png)
-![Editing LUA](./screenshots/editing_1.png)
-![Editing CPP](./screenshots/editing_2.png)
-![Telescope](./screenshots/telescope.png)
+<p align="center">
+  <img src="./screenshots/dashboard.png" width="45%" /><br/>
+  <em>Dashboard</em>
+</p>
+
+<p align="center">
+  <img src="./screenshots/editing_1.png" width="45%" />
+  <img src="./screenshots/editing_2.png" width="45%" /><br/>
+  <em>Editing (Lua & C++)</em>
+</p>
+
+<p align="center">
+  <img src="./screenshots/telescope.png" width="45%" /><br/>
+  <em>Telescope</em>
+</p>
+
 
 ---
 
