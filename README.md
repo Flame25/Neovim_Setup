@@ -48,5 +48,5 @@ If you’re okay with chaos that works — welcome.
 Clone into your Neovim config directory:
 
 ```sh
-git clone <your-repo-url> ~/.config/nvim
+git clone https://github.com/Flame25/Neovim_Setup.git ~/.config/nvim
 ```
